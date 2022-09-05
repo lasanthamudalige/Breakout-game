@@ -26,12 +26,15 @@ def main():
         screen.update()
         ball.move()
 
-        # detect the collision with wall
+        # detect the collision with left and right wall
         if ball.xcor() > 380 or ball.xcor() < -380:
             ball.bounce_x()
 
         # detect collision with paddle
-        if ball.distance(paddle) < 20 and ball.xcor() > -320:
+        if ball.distance(paddle) < 35 and ball.xcor() > -320:
+            ball.bounce_y()
+        # detect collision with top wall
+        if ball.ycor() > 280:
             ball.bounce_y()
 
     screen.exitonclick()
