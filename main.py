@@ -1,6 +1,8 @@
 from turtle import Screen
 from paddle import Paddle
 from ball import Ball
+import time
+
 
 def main():
     screen = Screen()
@@ -18,7 +20,19 @@ def main():
     screen.onkey(paddle.go_left, "Left")
     screen.onkey(paddle.go_right, "Right")
 
+    game_is_on = True
+    while game_is_on:
+        time.sleep(ball.move_speed)
+        screen.update()
+        ball.move()
 
+        # detect the collision with wall
+        if ball.xcor() > 380 or ball.xcor() < -380:
+            ball.bounce_x()
+
+        # detect collision with paddle
+        if ball.distance(paddle) < 20 and ball.xcor() > -320:
+            ball.bounce_y()
 
     screen.exitonclick()
 
