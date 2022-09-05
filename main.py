@@ -1,6 +1,6 @@
 from turtle import Screen
 from paddle import Paddle
-
+from ball import Ball
 
 def main():
     screen = Screen()
@@ -9,6 +9,7 @@ def main():
     screen.title("Breakout game")
 
     paddle = Paddle(position=(0, -250))
+    ball = Ball()
 
     # Move left and right when user press left/right arrow keys or a,d keys on the keyboard
     screen.listen()
@@ -16,6 +17,8 @@ def main():
     screen.onkey(paddle.go_right, "d")
     screen.onkey(paddle.go_left, "Left")
     screen.onkey(paddle.go_right, "Right")
+
+
 
     screen.exitonclick()
 
