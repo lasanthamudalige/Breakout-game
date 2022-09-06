@@ -15,7 +15,7 @@ def main():
 
     paddle = Paddle(position=(0, -350))
     ball = Ball()
-    
+
     # Add bricks to the screen
     bricks_list = []
     bricks = 0
@@ -49,6 +49,7 @@ def main():
     screen.onkey(paddle.go_left, "Left")
     screen.onkey(paddle.go_right, "Right")
 
+    tries = 3
     game_is_on = True
     while game_is_on:
         time.sleep(ball.move_speed)
@@ -76,8 +77,9 @@ def main():
 
         # If ball passed the bottom wall
         if ball.ycor() < -400:
-            # ball.reset_position()
-            main()
+            if tries != 0: 
+                ball.reset_position()
+                tries -= 1
 
     screen.exitonclick()
 
