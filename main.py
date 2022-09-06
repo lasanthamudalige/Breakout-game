@@ -9,16 +9,19 @@ import time
 def main():
     screen = Screen()
     screen.bgcolor("black")
-    screen.setup(800, 600)
+    screen.setup(800, 800)
     screen.title("Breakout game")
     screen.tracer(0)
 
-    paddle = Paddle(position=(0, -250))
+    paddle = Paddle(position=(0, -350))
     ball = Ball()
-
+    
+    # Add bricks to the screen
+    bricks_list = []
     bricks = 0
+    brick_object = f"brick{bricks}"
     x = -360
-    y = 220
+    y = 320
     for i in range(45):
         colors = ["red", "lime", "blue", "yellow", "cyan", "magenta", "silver", "grey", "maroon", "olive",
                   "green", "purple", "teal", "navy", "coral", "salmon", "gold", "khaki", "olive", "green", "teal",
@@ -26,8 +29,12 @@ def main():
                   "beige", "wheat", "sienna", "peru", "tan", "moccasin", "linen", "mint cream",
                   "slate gray", "lavender", "floral white", "alice blue", "ghost white", "honeydew", "ivory", "azure",
                   "snow"]
+
         random_color = random.choice(colors)
-        Brick((x, y), random_color)
+
+        brick_object = Brick((x, y), random_color)
+        bricks_list.append(brick_object)
+
         x += 90
         bricks += 1
 
@@ -35,8 +42,7 @@ def main():
             x = -360
             y -= 30
 
-
-    # Move left and right when user press left/right arrow keys or a,d keys on the keyboard
+    # Move left and right when user press left/right arrow keys or 'A','D' keys on the keyboard
     screen.listen()
     screen.onkey(paddle.go_left, "a")
     screen.onkey(paddle.go_right, "d")
@@ -49,19 +55,29 @@ def main():
         screen.update()
         ball.move()
 
-        # detect the collision with left and right wall
+        # Detect the collision with left and right wall
         if ball.xcor() > 380 or ball.xcor() < -380:
             ball.bounce_x()
 
-        # detect collision with paddle
-        if ball.distance(paddle) < 35 and ball.xcor() > -320:
+        # Detect collision with paddle
+        if ball.distance(paddle) < 35:
             ball.bounce_y()
 
-        # detect collision with top wall
-        if ball.ycor() > 280:
+        # Detect collision with top wall
+        if ball.ycor() > 380:
             ball.bounce_y()
 
-        # if ball.distance()
+        # Detect collision with a brick
+        for brick in bricks_list:
+            if ball.distance(brick) < 35 and brick.isvisible():
+                brick.hideturtle()
+                bricks_list.remove(brick)
+                ball.bounce_y()
+
+        # If ball passed the bottom wall
+        if ball.ycor() < -400:
+            # ball.reset_position()
+            main()
 
     screen.exitonclick()
 

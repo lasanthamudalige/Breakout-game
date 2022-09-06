@@ -10,6 +10,3 @@ class Brick(Turtle):
         self.penup()
         self.goto(position)
         self.tilt(90)
-
-
-
