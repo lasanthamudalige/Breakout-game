@@ -96,7 +96,7 @@ def main():
                 pen.write(f"Your score is {score}", font=(30), align="center")
                 pen.hideturtle()
                 game_is_on = False
-                # Ask the user to play agina? 
+                # Ask the user to play again? 
                 # If user enter 'y' hide the score and call main function 
                 # else quit
                 play_again = screen.textinput(
