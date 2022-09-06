@@ -1,6 +1,7 @@
 from turtle import Screen
 from paddle import Paddle
 from ball import Ball
+from bricks import Bricks
 import time
 
 
@@ -12,6 +13,7 @@ def main():
 
     paddle = Paddle(position=(0, -250))
     ball = Ball()
+    bricks = Bricks((-280, 220))
 
     # Move left and right when user press left/right arrow keys or a,d keys on the keyboard
     screen.listen()
