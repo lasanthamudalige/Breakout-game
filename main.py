@@ -1,9 +1,10 @@
-import random
 from turtle import Screen, Turtle
 from paddle import Paddle
 from ball import Ball
 from brick import Brick
+import random
 import time
+import sys
 
 
 def main():
@@ -33,6 +34,7 @@ def main():
         random_color = random.choice(colors)
 
         brick_object = Brick((x, y), random_color)
+        # Add every object to object list
         bricks_list.append(brick_object)
 
         x += 90
@@ -81,16 +83,29 @@ def main():
         pen = Turtle()
         if ball.ycor() < -400:
             # If user has move than 1 try
-            if tries > 3:
+            if tries > 0:
                 ball.reset_position()
                 tries -= 1
             else:
                 # Show the score in a blank page
                 screen.reset()
                 pen.color("white")
+                pen.up()
+                pen.goto(0, 200)
+                pen.down()
                 pen.write(f"Your score is {score}", font=(30), align="center")
                 pen.hideturtle()
                 game_is_on = False
+                # Ask the user to play agina? 
+                # If user enter 'y' hide the score and call main function 
+                # else quit
+                play_again = screen.textinput(
+                    "Do you want to play again?", "Enter Y or N:").lower()
+                if play_again == "y":
+                    pen.clear()
+                    main()
+                else:
+                    sys.exit(0)
 
     screen.exitonclick()
 
