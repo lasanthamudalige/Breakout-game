@@ -1,5 +1,5 @@
 import random
-from turtle import Screen
+from turtle import Screen, Turtle
 from paddle import Paddle
 from ball import Ball
 from brick import Brick
@@ -23,7 +23,7 @@ def main():
     x = -360
     y = 320
     for i in range(45):
-        colors = ["red", "lime", "blue", "yellow", "cyan", "magenta", "silver", "grey", "maroon", "olive",
+        colors = ["red", "lime", "yellow", "cyan", "magenta", "silver", "grey", "maroon", "olive",
                   "green", "purple", "teal", "navy", "coral", "salmon", "gold", "khaki", "olive", "green", "teal",
                   "aqua", "turquoise", "navy", "indigo", "purple", "thistle", "plum", "violet", "orchid", "pink",
                   "beige", "wheat", "sienna", "peru", "tan", "moccasin", "linen", "mint cream",
@@ -50,6 +50,7 @@ def main():
     screen.onkey(paddle.go_right, "Right")
 
     tries = 3
+    score = 0
     game_is_on = True
     while game_is_on:
         time.sleep(ball.move_speed)
@@ -61,7 +62,7 @@ def main():
             ball.bounce_x()
 
         # Detect collision with paddle
-        if ball.distance(paddle) < 35:
+        if ball.distance(paddle) <= 25:
             ball.bounce_y()
 
         # Detect collision with top wall
@@ -70,16 +71,25 @@ def main():
 
         # Detect collision with a brick
         for brick in bricks_list:
-            if ball.distance(brick) < 35 and brick.isvisible():
+            if ball.distance(brick) <= 35 and ball.xcor() > 0 and brick.isvisible():
                 brick.hideturtle()
                 bricks_list.remove(brick)
                 ball.bounce_y()
+                score += 10
 
         # If ball passed the bottom wall
+        pen = Turtle()
         if ball.ycor() < -400:
-            if tries != 0: 
+            if tries > 1:
                 ball.reset_position()
                 tries -= 1
+            else:
+                screen.reset()
+                pen.color("white")
+                pen.write(f"Your score is {score}", font=(20), align="center")
+                pen.up()
+                pen.goto(0, -20)
+                pen.hideturtle()
 
     screen.exitonclick()
 
