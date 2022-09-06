@@ -9,7 +9,7 @@ import time
 def main():
     screen = Screen()
     screen.bgcolor("black")
-    screen.setup(800, 800)
+    screen.setup(850, 800)
     screen.title("Breakout game")
     screen.tracer(0)
 
@@ -58,7 +58,7 @@ def main():
         ball.move()
 
         # Detect the collision with left and right wall
-        if ball.xcor() > 380 or ball.xcor() < -380:
+        if ball.xcor() > 400 or ball.xcor() < -400:
             ball.bounce_x()
 
         # Detect collision with paddle
@@ -71,7 +71,7 @@ def main():
 
         # Detect collision with a brick
         for brick in bricks_list:
-            if ball.distance(brick) <= 35 and ball.xcor() > 0 and brick.isvisible():
+            if ball.distance(brick) <= 40 and brick.isvisible():
                 brick.hideturtle()
                 bricks_list.remove(brick)
                 ball.bounce_y()
@@ -80,16 +80,17 @@ def main():
         # If ball passed the bottom wall
         pen = Turtle()
         if ball.ycor() < -400:
-            if tries > 1:
+            # If user has move than 1 try
+            if tries > 3:
                 ball.reset_position()
                 tries -= 1
             else:
+                # Show the score in a blank page
                 screen.reset()
                 pen.color("white")
-                pen.write(f"Your score is {score}", font=(20), align="center")
-                pen.up()
-                pen.goto(0, -20)
+                pen.write(f"Your score is {score}", font=(30), align="center")
                 pen.hideturtle()
+                game_is_on = False
 
     screen.exitonclick()
 
